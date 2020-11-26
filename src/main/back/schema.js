@@ -54,9 +54,10 @@ const typeDefs = gql`
   }
 
   type Query {
-    players: [Player]
-    player(name: String!): Player
-    matches: [Match]
+    players: [Player],
+    uniquePlayers: [String],
+    player(name: String!): Player,
+    matches: [Match],
     match(MatchID: String!): Match,
     cups: [Cup],
     cup(Year: String!): Cup,

@@ -12,36 +12,21 @@ export default class GraphQLContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: `{
-        players {
-          id,name,
-        }
-      }`,
       colDefs: columnDefinitions
     }
   }
 
   onFilterUpdate = (selectedOptions) => {
-    let queryParams = 'id,name,';
-    const newColumnsToRender = columnDefinitions.map((c) => {
-      const doesSelectedOptionsContainColAccessor = selectedOptions.filter(sel => sel.value === c.accessor).length > 0;
-      if (doesSelectedOptionsContainColAccessor) {
-        queryParams = queryParams + c.accessor + ',';
-      }
-      return {
-        ...c,
-        show: c.accessor === 'id' || c.accessor === 'name' ? true : doesSelectedOptionsContainColAccessor
-      }
-    });
-
+    let name = selectedOptions.label;
     const updatedQuery = `{
-        players {
-          ${queryParams}
-        }
-      }`;
-    console.log(`UPDATED QUERY`, updatedQuery);
+      worldCupsPlayedByPlayer(name:"${name}") {
+        Country,
+        Year,
+        Winner
+      }
+    }`;
 
-    this.setState({ colDefs: newColumnsToRender, query: updatedQuery });
+    this.setState({ query: updatedQuery });
   };
 
   renderTableContent = (props) => {
@@ -49,42 +34,63 @@ export default class GraphQLContainer extends Component {
     if (loading) {
       return <LoadingSpinner />;
     }
-    if (data && data.players) {
-      const { players } = data;
-      return <Table columns={this.state.colDefs} data={players} />
+    if (data && data.worldCupsPlayedByPlayer) {
+      const { worldCupsPlayedByPlayer } = data;
+      return <Table columns={this.state.colDefs} data={worldCupsPlayedByPlayer} />
+    }
+    return <div className="empty-content"/>;
+  };
+
+  renderSelectOptions = (props) => {
+    const { data, loading } = props;
+    if (loading) {
+      return <LoadingSpinner />
+    }
+    if (data && data.uniquePlayers) {
+      const { uniquePlayers } = data;
+      const options = uniquePlayers.map((p, k) => ({
+        value: k,
+        label: p
+      }));
+
+      return (
+        <div className="select-container">
+          <span>Select a player to see what world cups they played in</span>
+          <Select
+            options={options}
+            name="players"
+            onChange={this.onFilterUpdate}
+          />
+        </div>
+      )
     }
     return <div className="empty-content"/>;
   };
 
   render() {
-    const testQuery = gql`${this.state.query}`;
+    const testQuery = this.state.query ? gql`${this.state.query}` : null;
+    const selectQuery = gql`
+      {
+        uniquePlayers
+      }
+    `;
 
-    const filterOptions = [
-      { value: 'birth_date', label: 'Birth Date' },
-      { value: 'age', label: 'Age' },
-      { value: 'positions', label: 'Positions' },
-      { value: 'nationality', label: 'Nationality' },
-      { value: 'club_team', label: 'Club' },
-      { value: 'contract_end_year', label: 'Contract Until' },
-      { value: 'wage_euro', label: 'Wage' },
-      { value: 'value_euro', label: 'Value' },
-      { value: 'preferred_foot', label: 'Preferred Foot' },
-    ];
-
-    const isProjectDoneYet = false; // still messing around with resolvers and new data sets so until I figure out how to tie this to the UI, I'll just not show the Select and Table
+    const isProjectDoneYet = true; // still messing around with resolvers and new data sets so until I figure out how to tie this to the UI, I'll just not show the Select and Table
     return isProjectDoneYet ? (
       <div className="main-container">
-        <Select
-          isMulti
-          options={filterOptions}
-          name="players"
-          onChange={this.onFilterUpdate}
-        />
-        <div className="table-container">
+        <Query query={selectQuery}>
+          {
+            props => this.renderSelectOptions(props)
+          }
+        </Query>
+        {
+          this.state.query &&
           <Query query={testQuery}>
-            { props => this.renderTableContent(props) }
+            {
+              props => this.renderTableContent(props)
+            }
           </Query>
-        </div>
+        }
       </div>
     ) : <div>Project not finished yet, try again later.</div>;
   }

@@ -56,6 +56,7 @@ const cups = csvToJson.fieldDelimiter(',').getJsonFromCsv('src/main/back/csv/wor
 const resolvers = {
   Query: {
     players: () => players,
+    uniquePlayers: () => [...new Set(players.map(p => p.PlayerName))],
     player: (parent, args) => players.find(p => p.PlayerName.toLowerCase() === args.name.toLowerCase()),
     worldCupsPlayedByPlayer: (parent, args) => {
       const playersList = players.filter(p => p.PlayerName.toLowerCase() === args.name.toLowerCase());
@@ -63,7 +64,7 @@ const resolvers = {
       playersList.forEach(p => {
         matchDetails.push(matches.find(m => m.MatchID === p.Match))
       });
-      const matchYears = [...new Set(matchDetails.map(item => item.Year))];
+      const matchYears = [...new Set(matchDetails.map(m => m.Year))];
       return cups.filter(c => matchYears.includes(c.Year));
     },
     matches: () => matches,
