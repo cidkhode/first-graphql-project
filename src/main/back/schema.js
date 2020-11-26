@@ -34,7 +34,8 @@ const typeDefs = gql`
     MatchID: String!,
     HomeTeamInitials: String!,
     AwayTeamInitials: String!,
-    GameResultForPlayer: String!
+    GameResultForPlayer: String!,
+    WorldCupWinnerInThatYear: String!
   }
 
   type Cup {
@@ -47,16 +48,19 @@ const typeDefs = gql`
     GoalsScored: Int!,
     QualifiedTeams: Int!,
     MatchesPlayed: Int!,
-    Attendance: String!
+    Attendance: String!,
+    Matches: [Match]!,
+    Match(MatchID: String!): Match,
   }
 
   type Query {
     players: [Player]
     player(name: String!): Player
     matches: [Match]
-    match(id: String!): Match,
+    match(MatchID: String!): Match,
     cups: [Cup],
-    cup(year: String!): Cup
+    cup(Year: String!): Cup,
+    worldCupsPlayedByPlayer(name: String!): [Cup]
   }
 `;
 
