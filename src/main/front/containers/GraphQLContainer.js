@@ -71,7 +71,8 @@ export default class GraphQLContainer extends Component {
       { value: 'preferred_foot', label: 'Preferred Foot' },
     ];
 
-    return (
+    const isProjectDoneYet = false; // still messing around with resolvers and new data sets so until I figure out how to tie this to the UI, I'll just not show the Select and Table
+    return isProjectDoneYet ? (
       <div className="main-container">
         <Select
           isMulti
@@ -85,6 +86,6 @@ export default class GraphQLContainer extends Component {
           </Query>
         </div>
       </div>
-    );
+    ) : <div>Project not finished yet, try again later.</div>;
   }
 }
