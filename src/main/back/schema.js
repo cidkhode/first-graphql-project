@@ -4,6 +4,7 @@ const typeDefs = gql`
   type Player {
     RoundID: Int!,
     Match: Match!,
+    MatchID: String!
     TeamInitials: String!,
     CoachName: String!,
     LineUp: String!,

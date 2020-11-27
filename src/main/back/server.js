@@ -62,7 +62,7 @@ const resolvers = {
       const playersList = players.filter(p => p.PlayerName.toLowerCase() === args.name.toLowerCase());
       const matchDetails = [];
       playersList.forEach(p => {
-        matchDetails.push(matches.find(m => m.MatchID === p.Match))
+        matchDetails.push(matches.find(m => m.MatchID === p.MatchID))
       });
       const matchYears = [...new Set(matchDetails.map(m => m.Year))];
       return cups.filter(c => matchYears.includes(c.Year));
@@ -75,7 +75,7 @@ const resolvers = {
   Player: {
     Match: (parent) => {
       const parentTeam = parent.TeamInitials;
-      const match = matches.find(m => m.MatchID === parent.Match);
+      const match = matches.find(m => m.MatchID === parent.MatchID);
       const homeTeam = match.HomeTeamInitials;
 
       const homeTeamScore = match.HomeTeamGoals;
