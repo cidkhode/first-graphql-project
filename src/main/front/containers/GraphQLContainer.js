@@ -137,7 +137,7 @@ export default class GraphQLContainer extends Component {
                 }));
 
                 return (
-                  <div className="select-container">
+                  <div className="select-container second-select">
                     <span className="select-hint">Select a player to see what world cups they played in</span>
                     <Select
                       options={options}
@@ -200,7 +200,7 @@ export default class GraphQLContainer extends Component {
     const isProjectDoneYet = true; // still messing around with resolvers and new data sets so until I figure out how to tie this to the UI, I'll just not show the Select and Table
     return isProjectDoneYet ? (
       <div className="main-container">
-        <div className="select-container">
+        <div className="select-container first-select">
           <span className="select-hint">Select type of table you want to see:</span>
           <Select
             options={tableOptions}

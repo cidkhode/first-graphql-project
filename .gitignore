@@ -1,6 +1,6 @@
 # out dir
 dist
-cypress
+
 coverage
 
 # dependencies
