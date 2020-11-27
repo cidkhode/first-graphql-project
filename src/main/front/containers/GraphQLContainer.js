@@ -164,7 +164,7 @@ export default class GraphQLContainer extends Component {
     } else if (this.state.dataKey === 'matchesPlayedByPlayer') {
       return (
         <div>
-          <div className="select-container">
+          <div className="select-container second-select">
             <span className="select-hint">Choose fields you want to see players' match details</span>
             <Select
               options={playersMatchDetailsFilterOptions}

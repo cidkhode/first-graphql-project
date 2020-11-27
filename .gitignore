@@ -1,5 +1,9 @@
 # out dir
 dist
+cypress/plugins
+cypress/support
+cypress/screenshots
+cypress/fixtures
 
 coverage
 
