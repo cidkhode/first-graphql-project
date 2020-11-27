@@ -105,7 +105,10 @@ export default class GraphQLContainer extends Component {
       return <LoadingSpinner />;
     }
     if (data && data.players) {
-      const { players } = data;
+      const players = data.players.map(p => ({
+        ...p,
+        LineUp: p.LineUp === 'S' ? 'Started' : 'Substituted In'
+      }));
       return <Table columns={this.state.colDefsForQuery2} data={players} />
     }
     return <div className="empty-content"/>;

@@ -22,7 +22,10 @@
     "collectCoverageFrom": [
       "src/**/*.js"
     ],
-    "testPathIgnorePatterns": ["<rootDir>/cypress/", "<rootDir>/node_modules/"],
+    "testPathIgnorePatterns": [
+      "<rootDir>/cypress/",
+      "<rootDir>/node_modules/"
+    ],
     "moduleNameMapper": {
       "\\.(css|less|scss)$": "<rootDir>/tests/styleMock.js"
     }
@@ -35,6 +38,7 @@
     "apollo-boost": "^0.4.9",
     "apollo-server": "^2.19.0",
     "apollo-server-express": "^2.19.0",
+    "apollo-server-testing": "^2.19.0",
     "axios": "^0.19.2",
     "convert-csv-to-json": "^1.0.0",
     "cypress": "^6.0.0",
