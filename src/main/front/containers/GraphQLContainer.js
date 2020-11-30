@@ -69,24 +69,6 @@ export default class GraphQLContainer extends Component {
     }
   };
 
-  renderTableContent = (props, dataKey = '') => {
-    let colDefs = [];
-    if (dataKey === 'matchesPlayedByPlayer') {
-      dataKey = 'players';
-      colDefs = playersMatchDetailsColDefs
-    } else if (dataKey === 'worldCupsPlayedByPlayers') {
-      colDefs = cupsPlayedByPlayerColDefs;
-    }
-    const { data, loading } = props;
-    if (loading) {
-      return <LoadingSpinner />;
-    }
-    if (data && data[dataKey]) {
-      return <Table columns={colDefs} data={data[dataKey]} />;
-    }
-    return <div className="empty-content" />;
-  };
-
   renderFirstTableContent = (props) => {
     const { data, loading } = props;
     if (loading) {
